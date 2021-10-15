@@ -44,6 +44,7 @@ const whatsAppInit = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.whatsAppInit = whatsAppInit;
 const whatsAppSend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
+    console.log('el body : ', body);
     const number = body.numero;
     // const number = "5571104430"
     const mensaje = body.mensaje;
@@ -56,6 +57,15 @@ const whatsAppSend = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     try {
+        if (body.mensaje === 'hola') {
+            console.log('entra a hola');
+            client.on('message', msg => {
+                if (msg.body == 'hola') {
+                    msg.reply('Que onda :D');
+                }
+            });
+            return;
+        }
         yield client.sendMessage(number_details._serialized, mensaje); // send message
         res.json({
             msg: 'El mensaje fue enviado satisfactoriamente'

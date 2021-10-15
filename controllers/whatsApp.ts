@@ -44,6 +44,8 @@ export const whatsAppSend = async ( req: Request, res: Response ) => {
 
     const { body } = req;
 
+    console.log('el body : ', body)
+
     const number = body.numero;
     // const number = "5571104430"
     const mensaje = body.mensaje;
@@ -60,6 +62,18 @@ export const whatsAppSend = async ( req: Request, res: Response ) => {
     }
 
     try {
+
+        if ( body.mensaje === 'hola' ){
+            console.log('entra a hola')
+            client.on('message', msg => {
+                if (msg.body == 'hola') {
+                    msg.reply('Que onda :D');
+                }
+            });
+
+            return;
+        }
+
         await client.sendMessage(number_details._serialized, mensaje); // send message
     
         res.json({
